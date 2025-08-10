@@ -1,239 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Deeven Saam | Software Engineer</title>
-  <meta name="description" content="Portfolio of Pedapalli Saam Prasanth Deeven — Software Engineer specializing in Python, Django, Solr, and AI." />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deeven Saam | Software Engineer</title>
+    <meta name="description" content="Portfolio of Pedapalli Saam Prasanth Deeven, a Software Engineer skilled in Python, Django, and AI." />
 
-  <!-- Google Fonts: Elegant and modern -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Source+Code+Pro&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
-    <i class="fas fa-sun"></i> Light Mode
-  </button>
-
-<header class="header">
-  <div class="container header-flex">
-    <img src="assets/image.jpg" alt="Profile photo" class="avatar" />
-    
-    <div class="header-text">
-      <h1 class="site-title">Pedapalli Saam Prasanth Deeven</h1>
-      <nav class="header-nav">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#certifications">Certifications</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#" id="resume-toggle-btn">Show Resume</a></li>
-
-        </ul>
-      </nav>
-    </div>
-    
-    <div class="header-contacts">
-      <a href="https://github.com/deevensaam" target="_blank" aria-label="GitHub" title="GitHub">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/deeven-saam-4706a3194/" target="_blank" aria-label="LinkedIn" title="LinkedIn">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="tel:+919133583312" aria-label="Phone" title="Phone">
-        <i class="fas fa-phone"></i>
-      </a>
-      <a href="mailto:deeven.pedapalli@gmail.com" aria-label="Email" title="Email">
-        <i class="fas fa-envelope"></i>
-      </a>
+    <div id="preloader">
+        <div class="spinner"></div>
     </div>
 
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
-      <i class="fas fa-sun"></i> Light Mode
+    <button id="theme-toggle" aria-label="Toggle Theme">
+        <i class="fas fa-sun"></i>
     </button>
-  </div>
-</header>
 
-
-
-  <main class="container main-content">
-    <section id="about" class="section section-fade">
-      <h2>About Me</h2>
-      <p>
-        Detail-oriented software engineer with 2+ years at Reckonsys Tech Labs, skilled in Python, Django, SQL, Apache Solr, Docker, and distributed systems. Built search systems, async data pipelines, automated code-quality checks, and fine-tuned LLMs for domain-specific performance. B.Tech in Computer Science from IIIT Sri City. Available for immediate joining.
-      </p>
-    </section>
-
-    <section id="experience" class="section section-fade delay-1">
-      <h2>Experience</h2>
-      <article class="card">
-        <h3>Junior Software Engineer — Reckonsys Tech Labs</h3>
-        <time>Jul 2023 – Mar 2025 • Bengaluru, India</time>
-        <ul>
-          <li>Deployed Apache Solr with keyword & wildcard search — improved performance by 50%.</li>
-          <li>Architected async Excel processing with Celery & Redis — 60% faster uploads.</li>
-          <li>Automated health monitoring & email alerts — 40% better error tracking.</li>
-          <li>Integrated SonarQube APIs for automated quality & security checks.</li>
-          <li>Fine-tuned LLMs on domain-specific data for improved AI accuracy.</li>
-        </ul>
-      </article>
-      <article class="card">
-        <h3>Software Engineer Intern — Reckonsys Tech Labs</h3>
-        <time>Feb 2023 – Jul 2023 • Bengaluru, India</time>
-        <ul>
-          <li>Developed a full-stack ATS with Django & Python.</li>
-          <li>Designed 20+ UI screens based on Figma UI/UX.</li>
-        </ul>
-      </article>
-    </section>
-
-<section id="projects" class="section section-fade delay-2">
-  <h2>Projects</h2>
-  <div class="project-list">
-
-    <div class="project card">
-      <h3>
-        Text Summarization using NLP
-        <a href="https://github.com/deevensaam/Text-Summarization-using-NLP-techniques" target="_blank" rel="noopener" aria-label="View on GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-      </h3>
-      <p>Engineered a text summarization tool utilizing advanced Natural Language Processing (NLP) techniques to
-generate concise summaries from extensive documents, thereby increasing content accessibility.</p>
-      <span class="tags">
-        <span>Python</span><span>spaCy</span><span>NLP</span>
-      </span>
-    </div>
-
-    <div class="project card">
-      <h3>
-        Intelligent NLP-Based Question Generation
-        <a href="https://github.com/deevensaam/IR-mini-project-Automatic-Question-Generator-" target="_blank" rel="noopener" aria-label="View on GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-      </h3>
-      <p>Built an NLP system to enable automated question generation and semantic search, using libraries such as
-Stanford CoreNLP and spaCy for NER and information extraction.</p>
-      <span class="tags">
-        <span>Python</span><span>CoreNLP</span><span>Semantic Search</span>
-      </span>
-    </div>
-
-  </div>
-</section>
-
-
-
-    <section id="skills" class="section section-fade delay-3">
-      <h2>Skills</h2>
-      <div class="skills-list">
-        <span>Python</span>
-        <span>Django</span>
-        <span>SQL</span>
-        <span>PostgreSQL</span>
-        <span>Apache Solr</span>
-        <span>Docker</span>
-        <span>Celery</span>
-        <span>Redis</span>
-        <span>RabbitMQ</span>
-        <span>Power BI</span>
-        <span>Linux</span>
-        <span>Git</span>
-        <span>Postman</span>
-        <span>VS Code</span>
-        <span>PyCharm</span>
-        <span>DBeaver</span>
-        <span>Assembla</span>
-        <span>Jira</span>
-        <span>Canva</span>
-      </div>
-    </section>
-
-    <!-- Certifications -->
-<section id="certifications" class="section section-fade delay-4-5">
-  <h2>Certifications</h2>
-  <ul>
-    <li>Data Science — Internshala   <a href="https://trainings.internshala.com/view_certificate/06A07072-00F9-47C1-A560-94270A1D4929/A536261D-85C3-EEBC-B1EC-3C38113F069E/" target="_blank" rel="noopener" aria-label="View on GitHub">
-          <i class="fas fa-link"></i>
-        </a></li>
-    <li>Artificial Intelligence Combo Pack — HCL Guvi <a href="https://www.guvi.in/share-certificate/Dl168T2172632B0VEw" target="_blank" rel="noopener" aria-label="View on GitHub">
-          <i class="fas fa-link"></i>
-        </a></li>
-  </ul>
-</section>
-
-    <section id="education" class="section section-fade delay-4">
-      <h2>Education</h2>
-      <div class="card education">
-        <h3>B.Tech in Computer Science — IIIT Sri City, Chittoor , AP</h3>
-        <time>Aug 2019 – May 2023 • GPA 7.65/10.0</time>
-      </div>
-            <div class="card education">
-        <h3>Intermediate — Bhashyam College, Guntur, AP</h3>
-        <time>June 2017 – March 2019 • GPA 9.65/10.0</time>
-      </div>
-    </section>
-
-    <section id="resume-section" class="section section-fade" style="display:none;">
-    <h2>Resume</h2>
-    <div class="resume-viewer">
-        <iframe 
-        src="assets/Deeven_Saam_Resume.pdf"
-        width="100%" 
-        height="600"
-        style="border: 1px solid var(--border-color); border-radius: 12px;"
-        title="Resume PDF"
-        >
-        Your browser does not support embedded PDFs. 
-        <a href="assets/Deeven_Saam_Resume.pdf" target="_blank" rel="noopener">Download Resume</a>
-        </iframe>
-    </div>
-    <div class="resume-actions" style="text-align:center; margin-top: 18px;">
-        <a href="assets/Deeven_Saam_Resume.pdf" 
-        download 
-        class="btn btn-warning"
-        style="font-weight:600; border-radius:12px; box-shadow:0 2px 10px var(--accent-2);">
-        <i class="fas fa-download"></i> Download Resume
-        </a>
-    </div>
-    </section>
-
-
-    <section id="contact" class="section section-fade delay-5">
-      <h2>Contact Me</h2>
-      <form id="contact-form" class="contact-form" onsubmit="return submitForm(event)" novalidate>
-        <div class="form-row">
-          <input type="text" name="name" placeholder="Name" required />
-          <input type="email" name="email" placeholder="Email" required />
+    <header id="header">
+        <div class="container header-container">
+            <img src="assets/image.jpg" alt="Profile photo of Deeven Saam" class="avatar" />
+            <div class="header-text">
+                <h1 class="name">Pedapalli Saam Prasanth Deeven</h1>
+                <p class="tagline">Software Engineer</p>
+                <div class="header-socials">
+                    <a href="https://github.com/deevensaam" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/deeven-saam-4706a3194/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:deeven.pedapalli@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="tel:+919133583312" aria-label="Phone"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
         </div>
-        <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
-        <button type="submit" class="btn">Send Message</button>
-        <p id="form-status" class="form-status"></p>
-      </form>
-    </section>
-  </main>
+    </header>
 
-  <footer class="footer">
-    <div class="container">
-      <span>© <span id="year"></span> Pedapalli Saam Prasanth Deeven. All rights reserved.</span>
-      <div class="footer-socials">
-        <a href="mailto:deeven.pedapalli@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        <a href="tel:+919133583312" aria-label="Phone"><i class="fas fa-phone"></i></a>
-        <a href="https://github.com/deevensaam" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/deeven-saam-4706a3194/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</span>
-      </div>
-    </div>
-  </footer>
+    <main class="container">
+        <section id="about" class="scroll-target">
+            <h2><i class="fas fa-user-tie"></i> About Me</h2>
+            <p>
+                Detail-oriented software engineer with over 2+ years at Reckonsys Tech Labs, skilled in Python Django, SQL, Solr, and Docker. B.Tech in Computer Science from IIIT SriCity, certified in AI and Data Science. Previous experience as a DA and ML Intern at Technocolabs Softwares. Available for immediate joining.
+            </p>
+        </section>
 
-  <script src="script.js"></script>
+        <section id="experience" class="scroll-target">
+            <h2><i class="fas fa-briefcase"></i> Experience</h2>
+            <div class="card">
+                <h3>Software Engineer</h3>
+                <p class="company">Reckonsys Tech Labs | Bengaluru, India</p>
+                <p class="date">Jul 2023 – Mar 2025</p>
+                <ul>
+                    <li>Deployed and engineered Apache Solr, boosting search performance by 50% with indexed keyword searches and wildcard queries.</li>
+                    <li>Architected asynchronous background tasks with Django and Celery for large Excel files, cutting file upload time by 60%.</li>
+                    <li>Automated application health monitoring with cron jobs and email alerts, enhancing error tracking efficiency by 40%.</li>
+                    <li>Integrated SonarQube APIs to automate code quality workflows, enforcing quality gates and security scanning.</li>
+                    <li>Executed fine-tuning of LLMs on custom-curated datasets to develop bespoke AI solutions and improve domain-specific accuracy.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Software Engineer Intern</h3>
+                <p class="company">Reckonsys Tech Labs | Bengaluru, India</p>
+                <p class="date">Feb 2023 – Jul 2023</p>
+                <ul>
+                    <li>Developed a full-stack Application Tracking System (ATS) using Django and Python.</li>
+                    <li>Engineered the front-end with HTML, CSS, and JavaScript, designing over 20 screens from Figma models.</li>
+                </ul>
+            </div>
+        </section>
+
+<section id="projects" class="scroll-target">
+            <h2><i class="fas fa-cogs"></i> Projects</h2>
+            <div class="card">
+                <h3>
+                    Text Summarization using NLP techniques
+                    <a href="https://github.com/deevensaam/Text-Summarization-using-NLP-techniques" target="_blank" rel="noopener" class="project-link" aria-label="View on GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </h3>
+                <p>Engineered a text summarization tool using advanced NLP to generate concise summaries from extensive documents.</p>
+                <div class="tags">
+                    <span>Python</span><span>NLP</span><span>spaCy</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>
+                    Intelligent NLP-Based Question Generation
+                    <a href="https://github.com/deevensaam/IR-mini-project-Automatic-Question-Generator-" target="_blank" rel="noopener" class="project-link" aria-label="View on GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </h3>
+                <p>Built an NLP system for automated question generation and semantic search using libraries like Stanford CoreNLP and spaCy.</p>
+                <div class="tags">
+                    <span>Python</span><span>CoreNLP</span><span>Semantic Search</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="scroll-target">
+            <h2><i class="fas fa-code"></i> Skills & Technologies</h2>
+            <div class="skills-grid">
+                <div><h4>Languages</h4><p>Python, SQL, JavaScript</p></div>
+                <div><h4>Frameworks & Data</h4><p>Django, PostgreSQL, Power BI, Linux, Celery, Redis, RabbitMQ, Apache Solr, Docker</p></div>
+                <div><h4>Developer Tools</h4><p>Git, Github, Postman, Vscode, Pycharm, DBeaver, Assembla, Jira, Canva</p></div>
+            </div>
+        </section>
+
+        <section id="education" class="scroll-target">
+             <h2><i class="fas fa-graduation-cap"></i> Education & Certifications</h2>
+            <div class="card">
+                <h3>B.Tech in Computer Science</h3>
+                <p class="company">Indian Institute of Information Technology SriCity, Chittor</p>
+                <p class="date">Graduated May 2023 | GPA: 7.65/10.0</p>
+            </div>
+            <div class="card">
+                <h3>Certifications</h3>
+                <ul class="certification-list">
+                    <li>
+                        Artificial Intelligence Combo Pack - HCL Guvi
+                        <a href="https://www.guvi.in/share-certificate/Dl168T2172632B0VEw" target="_blank" rel="noopener" aria-label="View Certificate">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </li>
+                    <li>
+                        Data Science - Internshala
+                        <a href="https://trainings.internshala.com/view_certificate/06A07072-00F9-47C1-A560-94270A1D4929/A536261D-85C3-EEBC-B1EC-3C38113F069E/" target="_blank" rel="noopener" aria-label="View Certificate">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="resume" class="scroll-target">
+            <h2><i class="fas fa-file-alt"></i> My Resume</h2>
+            <div class="resume-viewer">
+                <iframe 
+                    src="assets/Deeven_Saam_Resume.pdf"
+                    title="Deeven Saam's Resume PDF"
+                ></iframe>
+            </div>
+            <div class="resume-download">
+                <a href="assets/Deeven_Saam_Resume.pdf" download="Deeven_Saam_Resume.pdf" class="btn resume-btn">
+                    <i class="fas fa-download"></i> Download as PDF
+                </a>
+            </div>
+        </section>
+
+
+        <section id="contact" class="scroll-target">
+            <h2><i class="fas fa-envelope-open-text"></i> Get In Touch</h2>
+            <p>I'm currently available for new opportunities. Feel free to reach out!</p>
+            <a href="mailto:deeven.pedapalli@gmail.com" class="btn">Say Hello</a>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Pedapalli Saam Prasanth Deeven. All Rights Reserved.</p>
+            <p>Last Updated: August 2025</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
