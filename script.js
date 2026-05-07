@@ -1,64 +1,112 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    // --- Preloader ---
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        window.addEventListener('load', () => {
-            preloader.style.opacity = '0';
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500);
-        });
-    }
+    const navbar = document.querySelector('.navbar');
 
-    // --- Theme Toggler ---
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    window.addEventListener('scroll', () => {
 
-    // Function to set theme
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            body.classList.add('dark-theme');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        if(window.scrollY > 50){
+            navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
         } else {
-            body.classList.remove('dark-theme');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            navbar.style.boxShadow = 'none';
         }
-    };
 
-    // Load saved theme or use system preference
-    const savedTheme = localStorage.getItem('theme');
-    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
-
-    // Toggle theme on button click
-    themeToggle.addEventListener('click', () => {
-        const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme);
+        updateActiveNav();
+        revealElements();
     });
 
-    // --- Scroll Animations ---
-    const scrollTargets = document.querySelectorAll('.scroll-target');
+    const themeToggle = document.getElementById("themeToggle");
+    const body = document.body;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Animate only once
-            }
-        });
-    }, {
-        threshold: 0.1 // Trigger when 10% of the element is visible
-    });
+    // Load saved theme
+    if(localStorage.getItem("theme") === "dark"){
+        body.classList.add("dark-mode");
 
-    scrollTargets.forEach(target => {
-        observer.observe(target);
-    });
-
-    // --- Footer Year ---
-    const yearSpan = document.getElementById('year');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
+        if(themeToggle){
+            themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
     }
+
+    // Toggle Theme
+    if(themeToggle){
+
+        themeToggle.addEventListener("click", () => {
+
+            body.classList.toggle("dark-mode");
+
+            if(body.classList.contains("dark-mode")){
+
+                localStorage.setItem("theme", "dark");
+
+                themeToggle.innerHTML =
+                    '<i class="fa-solid fa-sun"></i>';
+
+            } else {
+
+                localStorage.setItem("theme", "light");
+
+                themeToggle.innerHTML =
+                    '<i class="fa-solid fa-moon"></i>';
+            }
+
+        });
+
+    }
+    function revealElements(){
+
+        const reveals = document.querySelectorAll('.reveal');
+
+        reveals.forEach((element) => {
+
+            const windowHeight = window.innerHeight;
+            const elementTop =
+                element.getBoundingClientRect().top;
+
+            const revealPoint = 100;
+
+            if(elementTop < windowHeight - revealPoint){
+                element.classList.add('active');
+            }
+
+        });
+    }
+
+    revealElements();
+
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    function updateActiveNav(){
+
+        let current = "";
+
+        sections.forEach((section) => {
+
+            const sectionTop = section.offsetTop;
+
+            if(pageYOffset >= sectionTop - 200){
+                current = section.getAttribute("id");
+            }
+
+        });
+
+        navLinks.forEach((link) => {
+
+            link.classList.remove("active-link");
+
+            if(link.getAttribute("href") === `#${current}`){
+                link.classList.add("active-link");
+            }
+
+        });
+    }
+
+    updateActiveNav();
+
+    body.style.opacity = "0";
+
+    setTimeout(() => {
+        body.style.transition = "opacity 0.6s ease";
+        body.style.opacity = "1";
+    }, 100);
+
 });
