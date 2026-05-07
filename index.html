@@ -1,977 +1,836 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Professional Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <!-- FontAwesome for Social Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #334155; /* Slate 700 */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saam Prasanth Deeven Pedapalli | Software Engineer</title>
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(241, 245, 249, 0.5);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            height: 250px;
-        }
-
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-
-        /* --- VISUAL EFFECTS --- */
-        @keyframes gradient-xy {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .animate-gradient {
-            background-size: 200% 200%;
-            animation: gradient-xy 15s ease infinite;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.3s ease;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: rgba(15, 118, 110, 0.3);
-        }
-
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-
-        .reveal-item.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: linear-gradient(135deg, #0f766e 0%, #4338ca 100%);
-        }
-
-        .nav-item.active {
-            color: #0f766e;
-            font-weight: 700;
-        }
-        /* Underline effect for active nav item */
-        .nav-item.active::after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: #0f766e;
-            margin-top: 2px;
-            border-radius: 2px;
-        }
-
-        .w-full-chart {
-            width: 100% !important;
-            height: 100% !important;
-        }
-    </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
 </head>
-<body class="bg-slate-50 h-screen overflow-x-hidden animate-gradient bg-gradient-to-br from-slate-100 via-indigo-100/50 to-teal-100/50 flex flex-col">
+<body>
 
-    <!-- TOP NAVIGATION BAR (Fixed) -->
-    <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 transition-all shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16 md:h-20">
-                
-                <!-- Logo / Name -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div>
-                        <h1 id="nav-profile-name" class="text-lg md:text-xl font-bold text-gradient">Loading...</h1>
-                        <p id="nav-profile-role" class="text-[10px] text-slate-500 font-medium uppercase tracking-wider hidden sm:block">Loading...</p>
-                    </div>
-                </div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4 brand-gradient" href="#">
+      Deeven Pedapalli
+    </a>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex space-x-8">
-                    <button onclick="navigateTo('overview')" id="nav-overview" class="nav-item text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors py-2">
-                        Impact Dashboard
-                    </button>
-                    <button onclick="navigateTo('experience')" id="nav-experience" class="nav-item text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors py-2">
-                        Experience Analysis
-                    </button>
-                    <button onclick="navigateTo('skills')" id="nav-skills" class="nav-item text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors py-2">
-                        Technical Matrix
-                    </button>
-                    <button onclick="navigateTo('projects')" id="nav-projects" class="nav-item text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors py-2">
-                        Project Showcase
-                    </button>
-                    <button onclick="navigateTo('blogs')" id="nav-blogs" class="nav-item text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors py-2">
-                        Technical Writing
-                    </button>
-                </nav>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-                <!-- Right Side: Contact / Mobile Menu Button -->
-                <div class="flex items-center gap-4">
-                    <!-- Social Icons (Desktop) -->
-                    <div id="nav-social-links" class="hidden md:flex gap-3">
-                        <!-- Populated by JS -->
-                    </div>
-                    
-                    <button onclick="navigateTo('contact-footer')" class="hidden md:block bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold py-2 px-4 rounded-full transition-all shadow-md hover:shadow-lg">
-                        Contact Me
-                    </button>
-                    <!-- <a href="./resume.pdf" download
-                    class="hidden md:block bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all">
-                    <i class="fas fa-download mr-1"></i> Resume
-                    </a> -->
 
-                    <!-- Mobile Menu Toggle -->
-                    <button id="menu-toggle" class="md:hidden text-slate-600 hover:text-teal-600 focus:outline-none p-2" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Mobile Navigation Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-full shadow-lg">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <button onclick="navigateTo('overview')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-md">
-                    📊 Impact Dashboard
-                </button>
-                <button onclick="navigateTo('experience')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-md">
-                    💼 Experience Analysis
-                </button>
-                <button onclick="navigateTo('skills')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-md">
-                    🧩 Technical Matrix
-                </button>
-                <button onclick="navigateTo('projects')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-md">
-                    🚀 Project Showcase
-                </button>
-                <button onclick="navigateTo('blogs')" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-600 hover:text-teal-600 hover:bg-slate-50 rounded-md">
-                    ✍️ Technical Writing
-                </button>
-                <button onclick="navigateTo('contact-footer')" class="block w-full text-left px-3 py-3 text-base font-medium text-teal-600 font-bold hover:bg-teal-50 rounded-md mt-2 border-t border-slate-100">
-                    📬 Contact Me
-                </button>
-            </div>
-        </div>
-    </header>
 
-    <!-- Main Content Area -->
-    <!-- Added pt-20 to account for fixed header -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 scroll-smooth" id="main-content">
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
+
         
-        <!-- SECTION: Overview -->
-        <section id="overview" class="section-content space-y-6 mb-24 scroll-mt-24">
-            <div class="mb-8 reveal-item">
-                <h2 class="text-3xl font-bold text-slate-800">Professional <span class="text-gradient">Impact Dashboard</span></h2>
-                <p id="dashboard-intro" class="text-slate-600 mt-2 max-w-3xl leading-relaxed">
-                    <!-- Populated by JS -->
-                </p>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#experience">Experience</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#skills">Skills</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#education">Education</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#projects">Projects</a>
+        </li> 
+          <li class="nav-item">
+          <a class="nav-link fw-medium" href="#certifications">Certifications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#blogs">Blogs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-medium" href="#contact">Contact</a>
+        </li>
+<div class="d-flex align-items-center ms-lg-4">
+    <button id="themeToggle" class="theme-toggle-btn">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+</div>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-7">
+        <div class="hero-badge mb-4">
+          Immediate Joiner
+        </div>
+
+        <h1 class="hero-title mb-4">
+          Backend
+          <span class="gradient-text d-block">Engineer</span>
+        </h1>
+
+        <p class="hero-subtitle mb-5">
+          Software Engineer specializing in Python, Django,
+          Apache Solr, NLP systems, distributed architectures,
+          asynchronous workflows, and scalable backend engineering.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 mb-5">
+          <a href="#projects" class="custom-btn btn-primary-custom">
+            View Projects
+          </a>
+
+          <a href="https://drive.google.com/file/d/1M7f0yAdw_rnVMwsFUY3U-RyuWMs835tl/view?usp=sharing" target="_blank" download class="custom-btn btn-secondary-custom">
+            <i class="fa-solid fa-download"></i>
+            Download Resume
+          </a>
+        </div>
+
+        <div class="social-icons d-flex gap-3">
+          <a href="https://github.com/deevensaam" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+
+          <a href="https://www.linkedin.com/in/deeven-saam-4706a3194/" target="_blank">
+            <i class="fab fa-linkedin"></i>
+          </a>
+
+          <a href="mailto:deeven.pedapalli@gmail.com">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="glass p-5 rounded-5">
+          <h3 class="fw-bold mb-4">Core Expertise</h3>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span>Backend Engineering</span>
+              <span>90%</span>
+            </div>
+            <div class="progress" style="height:10px; border-radius:20px;">
+              <div class="progress-bar bg-success" style="width:90%"></div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span>Search Systems</span>
+              <span>85%</span>
+            </div>
+            <div class="progress" style="height:10px; border-radius:20px;">
+              <div class="progress-bar bg-primary" style="width:85%"></div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span>NLP / AI</span>
+              <span>75%</span>
+            </div>
+            <div class="progress" style="height:10px; border-radius:20px;">
+              <div class="progress-bar bg-info" style="width:75%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>System Optimization</span>
+              <span>80%</span>
+            </div>
+            <div class="progress" style="height:10px; border-radius:20px;">
+              <div class="progress-bar bg-warning" style="width:80%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="py-5">
+  <div class="container py-5">
+
+    <h2 class="section-title mb-4">
+      Professional <span class="gradient-text">Experience</span>
+    </h2>
+
+    <p class="section-subtitle mb-5">
+      Building scalable backend systems, search infrastructure,
+      async workflows, and AI-powered solutions in production environments.
+    </p>
+
+    <div class="row g-4">
+
+      <!-- EXPERIENCE CARD -->
+      <div class="col-12">
+        <div class="glass p-5 rounded-5">
+
+          <div class="d-flex flex-column flex-lg-row justify-content-between mb-4">
+            <div>
+              <h3 class="fw-bold mb-1">
+                Software Engineer
+              </h3>
+
+              <h5 class="text-success fw-semibold">
+                Reckonsys Tech Labs
+              </h5>
             </div>
 
-            <!-- Stats Row -->
-            <div id="stats-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Populated by JS -->
+            <div class="text-secondary fw-medium mt-3 mt-lg-0">
+              Jul 2023 – Mar 2025
+            </div>
+          </div>
+
+          <div class="row g-4">
+
+            <div class="col-lg-6">
+              <div class="glass p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-4">
+                  Key Contributions
+                </h5>
+
+                <ul class="list-unstyled d-flex flex-column gap-3">
+
+                  <li>
+                    🚀 Improved Apache Solr search performance by 50% using indexing optimization and wildcard query tuning.
+                  </li>
+
+                  <li>
+                    ⚡ Reduced upload processing time by 60% using Django Celery async workflows.
+                  </li>
+
+                  <li>
+                    📊 Automated monitoring systems improving error tracking efficiency by 40%.
+                  </li>
+
+                  <li>
+                    🤖 Fine-tuned LLMs on custom datasets for AI-driven workflows.
+                  </li>
+
+                  <li>
+                    🔍 Integrated SonarQube APIs for automated code quality analysis.
+                  </li>
+
+                </ul>
+              </div>
             </div>
 
-            <!-- Charts Row -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                <!-- Impact Metrics Chart -->
-                <div class="reveal-item glass-panel p-6 rounded-xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-slate-800">Optimization Metrics</h3>
-                        <span class="text-[10px] bg-slate-100 border border-slate-200 px-2 py-1 rounded-full text-slate-500 font-bold uppercase">Quantitative</span>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="impactChart"></canvas>
-                    </div>
-                    <p class="text-xs text-center text-slate-400 mt-4 italic">Values represent percentage improvements achieved.</p>
+            <div class="col-lg-6">
+              <div class="glass p-4 rounded-4 h-100">
+
+                <h5 class="fw-bold mb-4">
+                  Tech Stack
+                </h5>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                  <div class="skill-tag">Python</div>
+                  <div class="skill-tag">Django</div>
+                  <div class="skill-tag">Apache Solr</div>
+                  <div class="skill-tag">Celery</div>
+                  <div class="skill-tag">Redis</div>
+                  <div class="skill-tag">Docker</div>
+                  <div class="skill-tag">SQL</div>
+                  <div class="skill-tag">LLMs</div>
+                  <div class="skill-tag">Linux</div>
+
                 </div>
 
-                <!-- Text Summary -->
-                <div class="reveal-item glass-panel p-6 rounded-xl flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4">Executive Summary</h3>
-                    <div id="executive-summary" class="space-y-4 text-sm text-slate-600 leading-relaxed">
-                        <!-- Populated by JS -->
-                    </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INTERN EXPERIENCE -->
+      <div class="col-12">
+        <div class="glass p-5 rounded-5">
+
+          <div class="d-flex flex-column flex-lg-row justify-content-between mb-4">
+            <div>
+              <h3 class="fw-bold mb-1">
+                Software Engineer Intern
+              </h3>
+
+              <h5 class="text-primary fw-semibold">
+                Reckonsys Tech Labs
+              </h5>
+            </div>
+
+            <div class="text-secondary fw-medium mt-3 mt-lg-0">
+              Feb 2023 – Jul 2023
+            </div>
+          </div>
+
+          <ul class="list-unstyled d-flex flex-column gap-3">
+
+            <li>
+              💻 Developed a full-stack Application Tracking System (ATS).
+            </li>
+
+            <li>
+              🎨 Designed and implemented 20+ frontend screens from Figma designs.
+            </li>
+
+            <li>
+              🔗 Integrated frontend workflows with Django backend services.
+            </li>
+
+            <li>
+              📁 Built recruiter and candidate management workflows.
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="py-5">
+  <div class="container py-5">
+
+    <h2 class="section-title mb-4">
+      Technical <span class="gradient-text">Stack</span>
+    </h2>
+
+    <p class="section-subtitle mb-5">
+      Technologies and tools used to build scalable backend systems.
+    </p>
+
+    <div class="row g-4">
+
+      <div class="col-lg-4">
+        <div class="glass skill-card p-5 h-100">
+          <h3 class="fw-bold mb-4">Backend</h3>
+
+          <div class="d-flex flex-wrap gap-3">
+            <div class="skill-tag">Python</div>
+            <div class="skill-tag">Django</div>
+            <div class="skill-tag">Celery</div>
+            <div class="skill-tag">Redis</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="glass skill-card p-5 h-100">
+          <h3 class="fw-bold mb-4">Search & Database</h3>
+
+          <div class="d-flex flex-wrap gap-3">
+            <div class="skill-tag">Apache Solr</div>
+            <div class="skill-tag">SQL</div>
+            <div class="skill-tag">PostgreSQL</div>
+            <div class="skill-tag">Search Optimization</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="glass skill-card p-5 h-100">
+          <h3 class="fw-bold mb-4">Tools & DevOps</h3>
+
+          <div class="d-flex flex-wrap gap-3">
+            <div class="skill-tag">Docker</div>
+            <div class="skill-tag">Linux</div>
+            <div class="skill-tag">Git</div>
+            <div class="skill-tag">Postman</div>
+            <div class="skill-tag">Jira</div>
+            <div class="skill-tag">Assembla</div>
+            <div class="skill-tag">Canvas</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="py-5 reveal">
+  <div class="container py-5">
+
+    <h2 class="section-title mb-4">
+      Academic <span class="gradient-text">Background</span>
+    </h2>
+
+    <p class="section-subtitle mb-5">
+      Strong computer science foundation with specialization in
+      backend systems, NLP, machine learning, and distributed computing.
+    </p>
+
+    <div class="row justify-content-center">
+
+      <div class="col-lg-10">
+        <div class="glass p-5 rounded-5">
+
+          <div class="d-flex flex-column flex-lg-row justify-content-between mb-4">
+
+            <div>
+              <h3 class="fw-bold mb-2">
+                Indian Institute of Information Technology SriCity
+              </h3>
+
+              <h5 class="text-primary fw-semibold">
+                B.Tech in Computer Science
+              </h5>
+            </div>
+
+            <div class="text-secondary fw-medium mt-3 mt-lg-0">
+              Aug 2019 – July 2023
+            </div>
+
+          </div>
+
+          <div class="row g-4 mt-2">
+
+            <!-- GPA -->
+            <div class="col-md-4">
+              <div class="glass p-4 rounded-4 text-center h-100">
+                <h6 class="text-uppercase text-secondary fw-bold mb-3">
+                  GPA
+                </h6>
+
+                <h2 class="fw-bold gradient-text">
+                  7.65 / 10
+                </h2>
+              </div>
+            </div>
+
+            <!-- Coursework -->
+            <div class="col-md-8">
+              <div class="glass p-4 rounded-4 h-100">
+
+                <h5 class="fw-bold mb-4">
+                  Relevant Coursework
+                </h5>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                  <div class="skill-tag">DBMS</div>
+                  <div class="skill-tag">Theory of Computation</div>
+                  <div class="skill-tag">NLP</div>
+                  <div class="skill-tag">Cloud Computing</div>
+                  <div class="skill-tag">Machine Learning</div>
+                  <div class="skill-tag">Cryptography</div>
+                  <div class="skill-tag">Multimedia Systems</div>
+                  <div class="skill-tag">Agent Based Modeling & Simulation</div>
+
                 </div>
-            </div>
-        </section>
 
-        <!-- SECTION: Experience Analysis -->
-        <section id="experience" class="section-content space-y-6 mb-24 scroll-mt-24">
-            <div class="mb-8 reveal-item">
-                <h2 class="text-2xl font-bold text-slate-800">Experience <span class="text-gradient">Analysis</span></h2>
-                <p class="text-slate-600 mt-2">
-                    A deep dive into my professional timeline. <span class="font-semibold text-teal-700 bg-teal-50 px-1 rounded">Click on a role</span> to visualize responsibilities.
-                </p>
+              </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-                <!-- Interactive Timeline List -->
-                <div class="reveal-item col-span-1 glass-panel p-6 rounded-xl overflow-y-auto max-h-[600px]">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6">Career Timeline</h3>
-                    <div id="timeline-container" class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
+          </div>
 
-                <!-- Detail View Panel -->
-                <div class="reveal-item col-span-1 lg:col-span-2 glass-panel p-6 rounded-xl flex flex-col">
-                    <div id="experience-details-header" class="border-b border-slate-100 pb-4 mb-4">
-                        <h3 id="role-title" class="text-xl font-bold text-slate-800">Select a role to view details</h3>
-                        <p id="role-subtitle" class="text-slate-500 font-medium text-sm">Click on the timeline cards.</p>
-                    </div>
+        </div>
+      </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
-                        <!-- Bullets -->
-                        <div class="space-y-3">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Key Achievements</h4>
-                            <ul id="role-bullets" class="space-y-3 text-sm text-slate-600">
-                                <li class="flex items-start">
-                                    <span class="mr-2 mt-1 text-teal-500">▶</span>
-                                    <span>Select a role to see specific achievements and responsibilities.</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <!-- Dynamic Focus Chart -->
-                        <div class="bg-white/50 rounded-lg p-4 border border-slate-100">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">Tech Stack & Focus</h4>
-                            <div class="chart-container" style="height: 250px;">
-                                <canvas id="roleFocusChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    </div>
 
-        <!-- SECTION: Technical Matrix -->
-        <section id="skills" class="section-content space-y-6 mb-24 scroll-mt-24">
-            <div class="mb-8 reveal-item">
-                <h2 class="text-2xl font-bold text-slate-800">Technical <span class="text-gradient">Competency Matrix</span></h2>
-                <p class="text-slate-600 mt-2">
-                    A holistic view of my technical toolkit.
-                </p>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="py-5 reveal">
+  <div class="container py-5">
+
+    <h2 class="section-title mb-4">
+      Featured <span class="gradient-text">Projects</span>
+    </h2>
+
+    <p class="section-subtitle mb-5">
+      Real engineering systems focused on backend scalability and NLP.
+    </p>
+
+    <div class="row g-4">
+
+      <!-- PROJECT 1 -->
+      <div class="col-lg-4">
+        <div class="glass project-card p-5 h-100 d-flex flex-column">
+
+          <!-- TOP ROW -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div class="project-icon">
+              <i class="fa-solid fa-file"></i>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Radar Chart -->
-                <div class="reveal-item glass-panel p-6 rounded-xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-slate-800">Skill Proficiency Radar</h3>
-                        <div id="radar-controls" class="flex gap-2">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="skillsRadar"></canvas>
-                    </div>
-                    <p class="text-xs text-center text-slate-400 mt-4 italic">Use buttons above to switch categories.</p>
-                </div>
+            <a href="https://github.com/deevensaam/Text-Summarization-using-NLP-techniques"
+               target="_blank"
+               class="custom-btn btn-secondary-custom small">
 
-                <!-- Skill Tags Grid -->
-                <div class="reveal-item glass-panel p-6 rounded-xl">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6">Skill Cloud</h3>
-                    <div id="skill-cloud" class="space-y-8">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </section>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Project Link
+            </a>
 
-        <!-- SECTION: Projects -->
-        <section id="projects" class="section-content space-y-6 mb-24 scroll-mt-24">
-            <div class="mb-8 reveal-item">
-                <h2 class="text-2xl font-bold text-slate-800">Project <span class="text-gradient">Showcase</span></h2>
-                <p class="text-slate-600 mt-2">
-                    Highlighting key projects. <span class="font-semibold text-teal-700 bg-teal-50 px-1 rounded">Filter</span> by technology.
-                </p>
-                <div class="flex gap-2 mt-4">
-                    <button onclick="filterProjects('all')" class="project-filter active px-4 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 transition-all shadow-sm">All</button>
-                    <button onclick="filterProjects('nlp')" class="project-filter px-4 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 transition-all shadow-sm">NLP / AI</button>
-                    <button onclick="filterProjects('fullstack')" class="project-filter px-4 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 transition-all shadow-sm">Full Stack</button>
-                </div>
-            </div>
+          </div>
 
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Populated by JS -->
-            </div>
-        </section>
+          <!-- TITLE -->
+          <h3 class="fw-bold mb-3">
+            Text Summarization using NLP
+          </h3>
 
-        <!-- NEW SECTION: Blogs -->
-        <section id="blogs" class="section-content space-y-6 mb-24 scroll-mt-24">
-            <div class="mb-8 reveal-item">
-                <h2 class="text-2xl font-bold text-slate-800">Technical <span class="text-gradient">Writing</span></h2>
-                <p class="text-slate-600 mt-2">
-                    Deep dives into complex technical challenges. Read my latest articles on Medium.
-                </p>
+          <!-- DESCRIPTION -->
+          <p class="text-secondary mb-4">
+            Developed a Python-based extractive text summarization system
+            implementing custom NLP algorithms without external libraries.
+          </p>
+
+          <!-- TECH STACK -->
+          <div class="d-flex flex-wrap gap-2 mt-auto">
+            <div class="skill-tag">NLP</div>
+            <div class="skill-tag">Python</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="col-lg-4">
+        <div class="glass project-card p-5 h-100 d-flex flex-column">
+
+          <!-- TOP ROW -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div class="project-icon">
+              <i class="fa-solid fa-brain"></i>
             </div>
 
-            <div id="blogs-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Populated by JS -->
+            <a href="https://github.com/deevensaam/IR-mini-project-Automatic-Question-Generator-"
+               target="_blank"
+               class="custom-btn btn-secondary-custom small">
+
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Project Link
+            </a>
+
+          </div>
+
+          <!-- TITLE -->
+          <h3 class="fw-bold mb-3">
+            NLP Question Generator
+          </h3>
+
+          <!-- DESCRIPTION -->
+          <p class="text-secondary mb-4">
+            Built an intelligent semantic question generation engine using NLP,
+            spaCy, and Stanford CoreNLP.
+          </p>
+
+          <!-- TECH STACK -->
+          <div class="d-flex flex-wrap gap-2 mt-auto">
+            <div class="skill-tag">Python</div>
+            <div class="skill-tag">spaCy</div>
+            <div class="skill-tag">CoreNLP</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="col-lg-4">
+        <div class="glass project-card p-5 h-100 d-flex flex-column">
+
+          <!-- TOP ROW -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div class="project-icon">
+              <i class="fa-solid fa-users"></i>
             </div>
-        </section>
 
-        <!-- NEW: Footer / Contact Section -->
-        <footer id="contact-footer" class="mt-12 mb-6 reveal-item scroll-mt-24">
-            <div class="glass-panel rounded-xl p-8 md:p-12 text-center relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400 to-indigo-500"></div>
-                
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6">Let's <span class="text-gradient">Collaborate</span></h2>
-                <p class="text-slate-600 mb-8 max-w-2xl mx-auto">
-                    I am currently available for immediate joining. If you have an exciting opportunity in backend engineering or AI, I'd love to hear from you.
-                </p>
+            <a href="https://github.com/deevensaam/Application_tracking_system"
+               target="_blank"
+               class="custom-btn btn-secondary-custom small">
 
-                <div class="flex flex-col md:flex-row justify-center gap-6 mb-8">
-                    <a id="footer-email" href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 rounded-xl hover:border-teal-400 hover:shadow-lg transition-all group">
-                        <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 group-hover:scale-110 transition-transform">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="text-left">
-                            <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">Email Me</div>
-                            <div id="footer-email-text" class="text-slate-800 font-medium text-sm md:text-base">...</div>
-                        </div>
-                    </a>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Project Link
+            </a>
 
-                    <a id="footer-phone" href="#" class="flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all group">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="text-left">
-                            <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">Call Me</div>
-                            <div id="footer-phone-text" class="text-slate-800 font-medium text-sm md:text-base">...</div>
-                        </div>
-                    </a>
-                </div>
+          </div>
 
-                <div id="footer-social" class="flex justify-center gap-6 text-2xl text-slate-400">
-                    <!-- Populated by JS -->
-                </div>
-                
-                <div class="mt-8 text-xs text-slate-400 font-medium">
-                    © <span id="year"></span> Deeven Pedapalli. Interactive Portfolio.
-                </div>
+          <!-- TITLE -->
+          <h3 class="fw-bold mb-3">
+            Application Tracking System
+          </h3>
+
+          <!-- DESCRIPTION -->
+          <p class="text-secondary mb-4">
+            Developed a scalable ATS platform with recruiter workflows,
+            candidate management, and Django backend integration.
+          </p>
+
+          <!-- TECH STACK -->
+          <div class="d-flex flex-wrap gap-2 mt-auto">
+            <div class="skill-tag">Django</div>
+            <div class="skill-tag">PostgreSQL</div>
+            <div class="skill-tag">JavaScript</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" class="py-5 reveal">
+  <div class="container py-5">
+
+    <h2 class="section-title mb-4">
+      Professional <span class="gradient-text">Certifications</span>
+    </h2>
+
+    <p class="section-subtitle mb-5">
+      Certifications focused on AI, data science, analytics,
+      and modern software engineering concepts.
+    </p>
+
+    <div class="row g-4">
+
+      <!-- CERTIFICATION 1 -->
+      <div class="col-lg-4">
+        <a href="https://trainings.internshala.com/view_certificate/06A07072-00F9-47C1-A560-94270A1D4929/A536261D-85C3-EEBC-B1EC-3C38113F069E/"
+           target="_blank"
+           class="text-decoration-none text-dark">
+
+          <div class="glass p-5 rounded-5 h-100 skill-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="project-icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+
+              <span class="blog-badge">
+                Internshala
+              </span>
             </div>
-        </footer>
 
-    </main>
+            <h4 class="fw-bold mb-3">
+              Data Science
+            </h4>
 
-    <script>
-        // ==========================================
-        //  DATA CONFIGURATION
-        // ==========================================
-        const portfolioData = {
-            profile: {
-                name: "Deeven Pedapalli",
-                role: "Interactive Portfolio",
-                email: "deeven.pedapalli@gmail.com",
-                phone: "+91 9133583312",
-                social: [
-                    { name: "LinkedIn", url: "https://www.linkedin.com/in/deeven-saam-4706a3194/", icon: "fab fa-linkedin", colorHover: "#0077b5" },
-                    { name: "GitHub", url: "https://github.com/deevensaam", icon: "fab fa-github", colorHover: "#1e293b" },
-                    { name: "Medium", url: "https://medium.com/@deeven.pedapalli", icon: "fab fa-medium", colorHover: "#1e293b" , title:"Medium"}
-                ],
-                dashboardIntro: "Welcome to the interactive analysis of my professional profile. This dashboard quantifies my contributions in Backend Engineering, Search Optimization, and AI integration."
-            },
-            stats: [
-                { label: "Experience", value: "2+ Years", sub: "Backend & AI Solutions", color: "teal" },
-                { label: "Education", value: "B.Tech CS", sub: "IIIT SriCity (7.65 GPA)", color: "indigo" },
-                { label: "Status", value: "Available", sub: "Immediate Joining", color: "amber" }
-            ],
-            metrics: {
-                labels: ['Search Performance', 'Upload Time Reduction', 'Error Tracking Eff.'],
-                data: [50, 60, 40],
-                colors: ['#0f766e', '#0ea5e9', '#6366f1'] 
-            },
-            summary: [
-                "I am a detail-oriented Software Engineer specializing in <strong class='text-slate-800'>Python Django, SQL, and Apache Solr</strong>. My work focuses on building scalable backend architectures and optimizing data processing pipelines.",
-                "Recently, I have expanded into <strong class='text-slate-800'>AI and LLMs</strong>, executing fine-tuning on custom datasets to deliver domain-specific accuracy. My background includes significant achievements in system performance optimization."
-            ],
-            certifications: [
-                { name: "AI (HCL Guvi)", color: "teal" },
-                { name: "Data Science (Internshala)", color: "blue" },
-                { name: "Excel Data Analysis", color: "green" }
-            ],
-            experience: [
-                {
-                    title: "Software Engineer",
-                    company: "Reckonsys Tech Labs",
-                    period: "Jul 2023 - Mar 2025",
-                    icon: "🏢",
-                    color: "teal",
-                    details: [
-                        "Boosted search performance by 50% using Apache Solr & wildcard queries.",
-                        "Architected async tasks with Django/Celery, reducing upload time by 60%.",
-                        "Automated system health monitoring, improving error tracking efficiency by 40%.",
-                        "Fine-tuned LLMs on custom datasets for bespoke AI solutions.",
-                        "Integrated SonarQube APIs for automated code quality workflows."
-                    ],
-                    techFocus: {
-                        labels: ['Backend (Django/Python)', 'Search (Solr)', 'DevOps/Tools', 'AI/LLM'],
-                        data: [40, 25, 20, 15]
-                    }
-                },
-                {
-                    title: "Software Engineer Intern",
-                    company: "Reckonsys Tech Labs",
-                    period: "Feb 2023 - Jul 2023",
-                    icon: "🎓",
-                    color: "indigo",
-                    details: [
-                        "Developed full-stack Application Tracking System (ATS).",
-                        "Designed 20+ frontend screens based on Figma models.",
-                        "Implemented recruiter and candidate management workflows.",
-                        "Bridged frontend and backend using Django templates and JS."
-                    ],
-                    techFocus: {
-                        labels: ['Frontend (HTML/CSS/JS)', 'Backend (Django)', 'Database (SQL)', 'Design'],
-                        data: [45, 30, 15, 10]
-                    }
-                },
-                {
-                    title: "Education - B.Tech CS",
-                    company: "IIIT SriCity",
-                    period: "Aug 2019 - May 2023",
-                    icon: "🏛️",
-                    color: "slate",
-                    details: [
-                        "GPA: 7.65/10.0",
-                        "Specialization in Computer Science.",
-                        "Certified in AI (HCL Guvi) and Data Science (Internshala).",
-                        "Certified in Excel Data Analysis (Microsoft)."
-                    ],
-                    techFocus: {
-                        labels: ['Computer Science Core', 'Mathematics', 'Projects', 'Electives'],
-                        data: [40, 20, 30, 10]
-                    }
-                }
-            ],
-            skills: {
-                Languages: {
-                    labels: ['Python', 'SQL', 'JavaScript'],
-                    data: [90, 85, 75],
-                    color: "teal"
-                },
-                Frameworks: {
-                    labels: ['Django', 'Solr', 'Celery', 'PostgreSQL', 'Redis'],
-                    data: [90, 85, 80, 80, 75],
-                    color: "indigo"
-                },
-                Tools: {
-                    labels: ['Docker', 'Git', 'Linux', 'Jira', 'Postman'],
-                    data: [80, 90, 75, 85, 85],
-                    color: "amber"
-                }
-            },
-            projects: [
-                {
-                    title: "Text Summarization Tool",
-                    category: "nlp",
-                    categoryLabel: "NLP",
-                    icon: "📄",
-                    color: "teal",
-                    desc: "Engineered a tool utilizing advanced NLP techniques to generate concise summaries from extensive documents. Significantly increased content accessibility for large datasets.",
-                    tech: ["Python", "NLP Libraries", "Text Processing"],
-                    link: "https://github.com/deevensaam/Text-Summarization-using-NLP-techniques" // Add your GitHub link here
-                },
-                {
-                    title: "Intelligent Question Generator",
-                    category: "nlp",
-                    categoryLabel: "AI / Search",
-                    icon: "❓",
-                    color: "indigo",
-                    desc: "Built an NLP system for automated question generation and semantic search. Leveraged Stanford CoreNLP and spaCy for Named Entity Recognition (NER) and information extraction.",
-                    tech: ["spaCy", "CoreNLP", "Semantic Search"],
-                    link: "https://github.com/deevensaam/IR-mini-project-Automatic-Question-Generator-" // Add your GitHub link here
-                },
-                {
-                    title: "Application Tracking System (ATS)",
-                    category: "fullstack",
-                    categoryLabel: "Full Stack",
-                    icon: "👥",
-                    color: "amber",
-                    desc: "Developed a full-stack platform for recruiters and candidates. Designed 20+ frontend screens based on Figma models and implemented Django backend logic.",
-                    tech: ["Django", "HTML/CSS/JS", "PostgreSQL"],
-                    link: "https://github.com/deevensaam/Application_tracking_system" // Add your GitHub link here
-                }
-            ],
-            blogs: [
-                {
-                    title: "Solr Search vs ORM Search vs Search Vectors",
-                    tag: "Search Engineering",
-                    icon: "fas fa-magnifying-glass",
-                    color: "teal",
-                    url: "https://medium.com/@deeven.pedapalli/solr-search-vs-orm-search-vs-search-vectors-clear-and-simple-guide-7479dd08a94f"
-                },
-                {
-                    title: "Setting up Solr using Haystack in Django",
-                    tag: "Django & Solr",
-                    icon: "fas fa-cogs",
-                    color: "indigo",
-                    url: "https://medium.com/@deeven.pedapalli/setting-up-solr-using-haystack-in-django-project-83edae2a1e4d"
-                },
-                {
-                    title: "Setting up RabbitMQ and Redis in Django",
-                    tag: "DevOps & Async",
-                    icon: "fas fa-server",
-                    color: "amber",
-                    url: "https://medium.com/@deeven.pedapalli/setting-up-rabbitmq-and-redis-in-django-application-94708b11faa1"
-                },
-                                {
-                    title: "The “Consistency” Problem: Keeping Solr in Sync with Django Models",
-                    tag: "DB & Solr",
-                    icon: "fas fa-project-diagram",
-                    color: "blue",
-                    url: "https://medium.com/@deeven.pedapalli/the-consistency-problem-keeping-solr-in-sync-with-django-models-1f81211711bb"
-                }
-            ]
-        };
+            <p class="text-secondary mb-4">
+              Certification covering statistics, machine learning,
+              data analysis, and predictive modeling fundamentals.
+            </p>
 
-        // ==========================================
-        //  ENGINE LOGIC
-        // ==========================================
+            <div class="d-flex align-items-center text-success fw-semibold">
+              View Certificate
+              <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+            </div>
 
-        let impactChartInst = null;
-        let roleFocusChartInst = null;
-        let skillsRadarInst = null;
+          </div>
+        </a>
+      </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProfile();
-            renderStats();
-            renderTimeline();
-            renderRadarControls();
-            renderSkillCloud();
-            renderProjects();
-            renderBlogs();
-            
-            initImpactChart();
-            initRoleFocusChart(); 
-            initSkillsRadar();    
-            
-            updateExperienceView(0);
-            
-            setupScrollSpy();
-            setupScrollReveal();
+      <!-- CERTIFICATION 2 -->
+      <div class="col-lg-4">
+        <a href="https://www.guvi.in/share-certificate/Dl168T2172632B0VEw"
+           target="_blank"
+           class="text-decoration-none text-dark">
 
-            document.getElementById('year').innerText = new Date().getFullYear();
-        });
+          <div class="glass p-5 rounded-5 h-100 skill-card">
 
-        // --- MOBILE MENU TOGGLE ---
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const btn = document.getElementById('menu-toggle');
-            
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                menu.classList.add('block');
-                btn.innerHTML = '<i class="fas fa-times text-xl"></i>';
-            } else {
-                menu.classList.add('hidden');
-                menu.classList.remove('block');
-                btn.innerHTML = '<i class="fas fa-bars text-xl"></i>';
-            }
-        }
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="project-icon">
+                <i class="fa-solid fa-robot"></i>
+              </div>
 
-        // --- RENDERERS ---
+              <span class="blog-badge">
+                HCL GUVI
+              </span>
+            </div>
 
-        function renderProfile() {
-            // Navbar Profile Info
-            document.getElementById('nav-profile-name').innerText = portfolioData.profile.name;
-            document.getElementById('nav-profile-role').innerText = portfolioData.profile.role;
+            <h4 class="fw-bold mb-3">
+              Artificial Intelligence Combo Pack
+            </h4>
 
-            // Footer Contact Info
-            document.getElementById('footer-email-text').innerText = portfolioData.profile.email;
-            document.getElementById('footer-email').href = `mailto:${portfolioData.profile.email}`;
-            document.getElementById('footer-phone-text').innerText = portfolioData.profile.phone;
-            document.getElementById('footer-phone').href = `tel:${portfolioData.profile.phone}`;
-            
-            // Social Links (Navbar & Footer)
-            const navSocialContainer = document.getElementById('nav-social-links');
-            const footerSocialContainer = document.getElementById('footer-social');
-            
-            portfolioData.profile.social.forEach(link => {
-                // Navbar Icons
-                const navA = document.createElement('a');
-                navA.href = link.url;
-                navA.target = "_blank";
-                navA.rel = "noopener noreferrer";
-                navA.className = "text-slate-400 transition-colors text-lg hover:text-teal-600";
-                navA.innerHTML = `<i class="${link.icon}"></i>`;
-                navSocialContainer.appendChild(navA);
+            <p class="text-secondary mb-4">
+              Training focused on artificial intelligence concepts,
+              ML fundamentals, and AI-driven application workflows.
+            </p>
 
-                // Footer Icons
-                const footA = document.createElement('a');
-                footA.href = link.url;
-                footA.target = "_blank";
-                footA.rel = "noopener noreferrer";
-                footA.className = "hover:text-teal-600 transition-colors hover:scale-110 transform";
-                footA.innerHTML = `<i class="${link.icon}"></i>`;
-                footerSocialContainer.appendChild(footA);
-            });
+            <div class="d-flex align-items-center text-success fw-semibold">
+              View Certificate
+              <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+            </div>
 
-            document.getElementById('dashboard-intro').innerHTML = `
-                ${portfolioData.profile.dashboardIntro} 
-                <span class="font-semibold text-teal-700 bg-teal-50 px-1 rounded hidden md:inline">Interact with the charts</span> to see details.
-            `;
+          </div>
+        </a>
+      </div>
 
-            const summaryContainer = document.getElementById('executive-summary');
-            portfolioData.summary.forEach(p => {
-                const pEl = document.createElement('p');
-                pEl.innerHTML = p;
-                summaryContainer.appendChild(pEl);
-            });
-            
-            const certDiv = document.createElement('div');
-            certDiv.className = "mt-4 pt-4 border-t border-slate-100/50";
-            certDiv.innerHTML = `<h4 class="font-bold text-slate-800 mb-3 text-xs uppercase tracking-wide">Key Certifications</h4>`;
-            const certFlex = document.createElement('div');
-            certFlex.className = "flex flex-wrap gap-2";
-            
-            portfolioData.certifications.forEach(cert => {
-                certFlex.innerHTML += `<span class="px-3 py-1 bg-${cert.color}-50 text-${cert.color}-700 rounded-full text-[10px] md:text-xs font-semibold border border-${cert.color}-100 hover:bg-${cert.color}-100 transition-colors cursor-default">${cert.name}</span>`;
-            });
-            certDiv.appendChild(certFlex);
-            summaryContainer.appendChild(certDiv);
-        }
+      <!-- CERTIFICATION 3 -->
+      <div class="col-lg-4">
+        <a href="https://www.coursera.org/account/accomplishments/verify/JJFL1V9V8VKK?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course"
+           target="_blank"
+           class="text-decoration-none text-dark">
 
-        function renderStats() {
-            const container = document.getElementById('stats-grid');
-            portfolioData.stats.forEach(stat => {
-                container.innerHTML += `
-                <div class="reveal-item glass-panel p-4 md:p-6 rounded-xl border-l-4 border-${stat.color}-500 card-hover group">
-                    <div class="text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider group-hover:text-${stat.color}-600 transition-colors">${stat.label}</div>
-                    <div class="text-2xl md:text-3xl font-bold text-slate-800 mt-2">${stat.value}</div>
-                    <div class="text-xs md:text-sm text-${stat.color}-600 mt-1 font-medium">${stat.sub}</div>
-                </div>`;
-            });
-        }
+          <div class="glass p-5 rounded-5 h-100 skill-card">
 
-        function renderTimeline() {
-            const container = document.getElementById('timeline-container');
-            portfolioData.experience.forEach((job, index) => {
-                const isEven = index % 2 !== 0; 
-                container.innerHTML += `
-                <div class="relative flex items-center justify-between md:justify-normal ${isEven ? 'md:flex-row-reverse' : ''} group cursor-pointer" onclick="updateExperienceView(${index})">
-                    <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-${job.color}-500 bg-white shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-all hover:scale-110 hover:border-${job.color}-400">
-                        <span class="text-xs md:text-sm">${job.icon}</span>
-                    </div>
-                    <div class="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] bg-white/80 p-3 md:p-4 rounded-lg border border-slate-200 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
-                        <div class="flex items-center justify-between space-x-2 mb-1">
-                            <div class="font-bold text-slate-800 text-xs md:text-sm">${job.title}</div>
-                        </div>
-                        <div class="text-[10px] md:text-xs text-${job.color}-600 font-bold">${job.company}</div>
-                        <div class="text-[10px] md:text-xs text-slate-400 mt-1">${job.period}</div>
-                    </div>
-                </div>`;
-            });
-        }
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="project-icon">
+                <i class="fa-solid fa-file-excel"></i>
+              </div>
 
-        function renderRadarControls() {
-            const container = document.getElementById('radar-controls');
-            Object.keys(portfolioData.skills).forEach(key => {
-                container.innerHTML += `<button onclick="updateRadar('${key}')" class="text-[10px] uppercase font-bold tracking-wide bg-slate-100 hover:bg-teal-50 hover:text-teal-700 px-3 py-1.5 rounded-md transition-all flex-grow md:flex-grow-0">${key}</button>`;
-            });
-        }
+              <span class="blog-badge">
+                Microsoft
+              </span>
+            </div>
 
-        function renderSkillCloud() {
-            const container = document.getElementById('skill-cloud');
-            const colorMap = { "Languages": "teal", "Frameworks": "indigo", "Tools": "amber" }; 
-            
-            Object.entries(portfolioData.skills).forEach(([category, data]) => {
-                const color = data.color || colorMap[category] || "slate";
-                let html = `<div>
-                    <h4 class="text-xs font-bold text-${color}-700 mb-3 border-b border-${color}-100 pb-2 uppercase tracking-wide">Core ${category}</h4>
-                    <div class="flex flex-wrap gap-2">`;
-                
-                data.labels.forEach(skill => {
-                    html += `<span class="px-2 md:px-3 py-1.5 md:py-2 bg-white border border-slate-200 rounded-lg text-xs md:text-sm text-slate-700 font-medium shadow-sm hover:shadow-md hover:border-${color}-300 transition-all cursor-default">${skill}</span>`;
-                });
-                
-                html += `</div></div>`;
-                container.innerHTML += html;
-            });
-        }
+            <h4 class="fw-bold mb-3">
+              Preparing Data for Analysis with Excel
+            </h4>
 
-        function renderProjects() {
-            const container = document.getElementById('projects-grid');
-            portfolioData.projects.forEach(p => {
-                let tagsHtml = '';
-                p.tech.forEach(t => {
-                    tagsHtml += `<span class="px-2 py-1 bg-white border border-slate-200 rounded text-[10px] md:text-xs font-medium text-slate-500">${t}</span>`;
-                });
+            <p class="text-secondary mb-4">
+              Certification focused on data preparation,
+              Excel analytics, and business-oriented data workflows.
+            </p>
 
-                // Check for link
-                const githubLink = p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="mr-3 text-slate-400 hover:text-slate-700 transition-colors" title="View Code"><i class="fab fa-github text-lg"></i></a>` : '';
+            <div class="d-flex align-items-center text-success fw-semibold">
+              View Certificate
+              <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+            </div>
 
-                container.innerHTML += `
-                <div class="reveal-item glass-panel p-4 md:p-6 rounded-xl border border-slate-200 card-hover project-card group flex flex-col h-full" data-category="${p.category}">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="p-3 bg-${p.color}-100 rounded-lg text-xl group-hover:scale-110 transition-transform">${p.icon}</div>
-                        <div class="flex items-center">
-                            ${githubLink}
-                            <span class="px-2 py-1 bg-${p.color}-50 text-${p.color}-600 border border-${p.color}-100 text-[10px] uppercase font-bold tracking-wider rounded">${p.categoryLabel}</span>
-                        </div>
-                    </div>
-                    <h3 class="text-base md:text-lg font-bold text-slate-800 mb-2 group-hover:text-${p.color}-700 transition-colors">${p.title}</h3>
-                    <p class="text-xs md:text-sm text-slate-600 mb-6 leading-relaxed">${p.desc}</p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        ${tagsHtml}
-                    </div>
-                </div>`;
-            });
-        }
+          </div>
+        </a>
+      </div>
 
-        function renderBlogs() {
-            const container = document.getElementById('blogs-grid');
-            if(!container) return; // Guard
-            
-            portfolioData.blogs.forEach(blog => {
-                container.innerHTML += `
-                <a href="${blog.url}" target="_blank" rel="noopener noreferrer" class="reveal-item glass-panel p-6 rounded-xl border border-slate-200 hover:border-${blog.color}-400 hover:shadow-xl transition-all group flex flex-col h-full">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="w-10 h-10 rounded-full bg-${blog.color}-50 flex items-center justify-center text-${blog.color}-600 group-hover:scale-110 transition-transform">
-                            <i class="${blog.icon}"></i>
-                        </div>
-                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider"><i class="fab fa-medium"></i> Medium</span>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-800 mb-2 group-hover:text-${blog.color}-700 transition-colors line-clamp-2">${blog.title}</h3>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                        <span class="text-xs font-medium text-${blog.color}-600 bg-${blog.color}-50 px-2 py-1 rounded">${blog.tag}</span>
-                        <span class="text-xs text-slate-400 group-hover:translate-x-1 transition-transform">Read <i class="fas fa-arrow-right ml-1"></i></span>
-                    </div>
-                </a>`;
-            });
-        }
+    </div>
+  </div>
+</section>
 
-        // --- CHARTS & INTERACTION ---
+<!-- BLOGS -->
+<section id="blogs" class="py-5">
+  <div class="container py-5">
 
-        function initImpactChart() {
-            const ctx = document.getElementById('impactChart').getContext('2d');
-            impactChartInst = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: portfolioData.metrics.labels,
-                    datasets: [{
-                        label: '% Improvement',
-                        data: portfolioData.metrics.data,
-                        backgroundColor: portfolioData.metrics.colors,
-                        borderRadius: 6,
-                        barThickness: 40
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: { duration: 2000, easing: 'easeOutQuart' },
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { stepSize: 10, callback: (v) => v + '%' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-        }
+    <h2 class="section-title mb-4">
+      Technical <span class="gradient-text">Writing</span>
+    </h2>
 
-        function initRoleFocusChart() {
-            const ctx = document.getElementById('roleFocusChart').getContext('2d');
-            roleFocusChartInst = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: [], 
-                    datasets: [{ data: [], backgroundColor: ['#0f766e', '#0ea5e9', '#6366f1', '#f59e0b'], borderWidth: 0 }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '65%',
-                    animation: { animateScale: true, animateRotate: true },
-                    plugins: { legend: { position: 'right', labels: { boxWidth: 10, usePointStyle: true, font: { size: 10 } } } }
-                }
-            });
-        }
+    <p class="section-subtitle mb-5">
+      Engineering deep dives, backend optimization, and production learnings.
+    </p>
 
-        function initSkillsRadar() {
-            const ctx = document.getElementById('skillsRadar').getContext('2d');
-            const firstKey = Object.keys(portfolioData.skills)[0];
-            const data = portfolioData.skills[firstKey];
-            
-            skillsRadarInst = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Proficiency Level',
-                        data: data.data,
-                        backgroundColor: 'rgba(15, 118, 110, 0.2)',
-                        borderColor: '#0f766e',
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#0f766e'
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { r: { angleLines: { color: '#e2e8f0' }, grid: { color: '#e2e8f0' }, pointLabels: { font: { size: 12, weight: 'bold' }, color: '#475569' }, min: 0, max: 100, ticks: { stepSize: 20, display: false } } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
+    <div class="row g-4">
 
-        function updateExperienceView(index) {
-            const data = portfolioData.experience[index];
-            document.getElementById('role-title').innerText = data.title;
-            document.getElementById('role-subtitle').innerText = `${data.company} | ${data.period}`;
-            
-            const list = document.getElementById('role-bullets');
-            list.innerHTML = '';
-            list.style.opacity = '0';
-            
-            setTimeout(() => {
-                data.details.forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = 'flex items-start';
-                    li.innerHTML = `<span class="mr-2 mt-1 text-teal-500">▶</span><span>${item}</span>`;
-                    list.appendChild(li);
-                });
-                list.style.transition = 'opacity 0.3s ease';
-                list.style.opacity = '1';
-            }, 200);
+      <div class="col-lg-4">
+        <a href="https://medium.com/@deeven.pedapalli/the-consistency-problem-keeping-solr-in-sync-with-django-models-1f81211711bb"
+          target="_blank"
+          class="text-decoration-none text-dark">
 
-            if (roleFocusChartInst) {
-                roleFocusChartInst.data.labels = data.techFocus.labels;
-                roleFocusChartInst.data.datasets[0].data = data.techFocus.data;
-                roleFocusChartInst.update();
-            }
-        }
+          <div class="glass blog-card p-5 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <i class="fab fa-medium fs-1 text-success"></i>
 
-        function updateRadar(category) {
-            const data = portfolioData.skills[category];
-            if (skillsRadarInst) {
-                skillsRadarInst.data.labels = data.labels;
-                skillsRadarInst.data.datasets[0].data = data.data;
-                skillsRadarInst.update();
-            }
-        }
+              <div class="blog-badge">
+                Featured
+              </div>
+            </div>
 
-        function filterProjects(category) {
-            const cards = document.querySelectorAll('.project-card');
-            const buttons = document.querySelectorAll('.project-filter');
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-teal-50', 'text-teal-700', 'border-teal-200');
-                btn.classList.add('bg-white', 'text-slate-600');
-                if(btn.innerText.toLowerCase().includes(category) || (category === 'all' && btn.innerText === 'All')) {
-                    btn.classList.remove('bg-white', 'text-slate-600');
-                    btn.classList.add('bg-teal-50', 'text-teal-700', 'border-teal-200');
-                }
-            });
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.4s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+            <h3 class="fw-bold mb-4">
+              Keeping Solr in Sync with Django Models
+            </h3>
 
-        function navigateTo(sectionId) {
-            const element = document.getElementById(sectionId);
-            if(element) element.scrollIntoView({ behavior: 'smooth' });
-            
-            // Close mobile menu if open
-            const menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('block') && window.innerWidth < 768) {
-                toggleMobileMenu();
-            }
-        }
+            <p class="text-secondary">
+              Deep dive into distributed consistency problems in Solr and Django systems.
+            </p>
+          </div>
+        </a>
+      </div>
 
-        function setupScrollSpy() {
-            // ScrollSpy uses the window scroll since body is no longer the scroll container (html/body is)
-            const sections = document.querySelectorAll('.section-content');
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    // Adjusted offset for fixed header
-                    if (window.scrollY >= (sectionTop - 150)) { 
-                        current = section.getAttribute('id'); 
-                    }
-                });
-                
-                // If at top
-                if (window.scrollY < 100) current = 'overview';
-                
-                navItems.forEach(item => {
-                    item.classList.remove('active');
-                    // Reset styling
-                    item.classList.remove('text-teal-600');
-                    item.classList.add('text-slate-600');
-                    
-                    if (item.id === `nav-${current}`) {
-                        item.classList.add('active');
-                        item.classList.remove('text-slate-600');
-                        item.classList.add('text-teal-600');
-                    }
-                });
-            });
-        }
+      <div class="col-lg-4">
+        <a href="https://medium.com/@deeven.pedapalli/solr-search-vs-orm-search-vs-search-vectors-clear-and-simple-guide-7479dd08a94f"
+          target="_blank"
+          class="text-decoration-none text-dark">
 
-        function setupScrollReveal() {
-            const observerOptions = { root: null, threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-            document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
-        }
+          <div class="glass blog-card p-5 h-100">
+            <i class="fab fa-medium fs-1 text-success mb-4"></i>
 
-    </script>
+            <h3 class="fw-bold mb-4">
+              Solr Search vs ORM Search vs Search Vectors
+            </h3>
+
+            <p class="text-secondary">
+              Performance comparison between traditional ORM search and Solr systems.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-lg-4">
+        <a href="https://medium.com/@deeven.pedapalli/setting-up-rabbitmq-and-redis-in-django-application-94708b11faa1"
+          target="_blank"
+          class="text-decoration-none text-dark">
+
+          <div class="glass blog-card p-5 h-100">
+            <i class="fab fa-medium fs-1 text-success mb-4"></i>
+
+            <h3 class="fw-bold mb-4">
+              Setting up RabbitMQ & Redis in Django
+            </h3>
+
+            <p class="text-secondary">
+              Practical guide for asynchronous task architecture in Django.
+            </p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-5">
+  <div class="container py-5">
+
+    <div class="contact-section p-5 text-center">
+      <h2 class="display-4 fw-bold mb-4">
+        Let's Build Something Great
+      </h2>
+
+      <p class="fs-5 mb-5 mx-auto" style="max-width:700px;">
+        Currently available for backend engineering,
+        search infrastructure, Python, and AI-focused opportunities.
+      </p>
+
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+
+        <a href="mailto:deeven.pedapalli@gmail.com"
+          class="custom-btn btn-primary-custom">
+          Email Me
+        </a>
+
+        <a href="https://github.com/deevensaam"
+          target="_blank"
+          class="custom-btn btn-secondary-custom">
+          GitHub
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
 </body>
 </html>
